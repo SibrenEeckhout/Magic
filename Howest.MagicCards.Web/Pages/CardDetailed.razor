@@ -1,0 +1,70 @@
+﻿@page "/Card/{id:int}"
+@using System.Text.Json
+@using Howest.MagicCards.Shared.DTO;
+@using global::Shared.DTO;
+
+@inject IHttpClientFactory httpClientFactory
+
+
+<h3>Detail of card</h3>
+
+    @if (card == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div>
+            <hr />
+            <dl class="d-lg-block">
+                <dt>
+                    @card.Name
+                </dt>
+                <dd>
+                <div style="padding: 10px;">
+                    <h2>Title</h2>
+                    <dl>
+                        <dt>Set Code:</dt>
+                        <dd>@card.SetCode</dd>
+
+                        <dt>Artist ID:</dt>
+                        <dd>@card.ArtistId</dd>
+
+                        <dt>Rarity Code:</dt>
+                        <dd>@card.RarityCode</dd>
+
+                        <dt>Type:</dt>
+                        <dd>@card.Type</dd>
+
+                        <dt>Text:</dt>
+                        <dd>@card.Text</dd>
+
+                        <dt>Flavor:</dt>
+                        <dd>@card.Flavor</dd>
+
+                        <dt>Number:</dt>
+                        <dd>@card.Number</dd>
+
+                        <dt>Power:</dt>
+                        <dd>@card.Power</dd>
+
+                        <dt>Toughness:</dt>
+                        <dd>@card.Toughness</dd>
+
+                        <dt>Original Text:</dt>
+                        <dd>@card.OriginalText</dd>
+                    </dl>
+                </div>
+
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <NavLink class="nav-link" href="/cards">
+                <span class="oi oi-card" aria-hidden="true"></span> Go back to cards
+            </NavLink>
+        </div>
+
+    }
+
+

@@ -1,0 +1,62 @@
+﻿
+@typeparam TItem
+
+    <h3>@Title</h3>
+
+    @if (Items == null)
+    {
+        @LoadingTemplate
+    }
+    else
+    {
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    @HeaderTemplate
+                </tr>
+            </thead>
+            <tbody>
+                <h5>@Message</h5>
+                @foreach (TItem item in Items)
+                {
+                    <tr>
+                        @RowTemplate(item)
+                    <td>
+                        <button class="btn btn-info" @onclick="() => ShowDetail(item)">Detail</button>
+                        <button class="btn btn-success" @onclick="() => AddItem(item)">@text</button>
+                     
+                    </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public string? text { get; set; }
+
+    [Parameter]
+    public RenderFragment? LoadingTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment? HeaderTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? RowTemplate { get; set; }
+
+    [Parameter]
+    public IEnumerable<TItem>? Items { get; set; }
+
+    [Parameter]
+    public Action<TItem>? AddItem { get; set; }
+
+    [Parameter]
+    public Action<TItem>? ShowDetail { get; set; }
+}

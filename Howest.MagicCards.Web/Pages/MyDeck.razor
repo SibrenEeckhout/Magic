@@ -1,0 +1,37 @@
+﻿@page "/Deck"
+@using System.Text.Json
+@using Howest.MagicCards.Shared.DTO;
+@using global::Shared.DTO;
+
+@inject IHttpClientFactory httpClientFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Deck</PageTitle>
+<h1>Deck</h1>
+
+<p role="status">cards in Deck:</p>
+@if (cards != null)
+{
+    <p role="status">Found Cards:</p>
+    <TableWidget text="@button" Items="@cards" AddItem="@((card) => UpdateAmountFromDeck(card))"
+             ShowDetail="@((card) => NavigateToCardDetailsPage(card))">
+        <HeaderTemplate>
+            <th scope="col">amount</th>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">RarityCode</th>
+            <th scope="col">artistId</th>
+        </HeaderTemplate>
+        <RowTemplate Context="card">
+            <td><a href="/Deck" @onclick="() => OnAmountClicked(card)">@card?.Amount</a></td>
+            <td>@card?.Id</td>
+            <td>@card?.Name</td>
+            <td>@card?.RarityCode</td>
+            <td>@card?.ArtistId</td>
+        </RowTemplate>
+    </TableWidget>
+    <button class="btn btn-danger" @onclick="() => Clear()">Clear</button>
+}
+
+
+

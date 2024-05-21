@@ -1,0 +1,101 @@
+﻿@page "/Cards"
+@using System.Text.Json
+@using Howest.MagicCards.Shared.DTO;
+@using global::Shared.DTO;
+
+@inject IHttpClientFactory httpClientFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Cards</PageTitle>
+<h1>Cards</h1>
+<EditForm EditContext="editContext" OnValidSubmit="() => FilterCards(editContext, rarityCode, type, artistId,id,name,pageSize, pageNumber, text, Sort)">
+    @if (rarites != null)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <label for="rarityCode">Rarity:</label>
+                <InputSelect class="form-control" @bind-Value="rarityCode">
+                    @foreach (RarityReadDTO rarity in rarites)
+                    {
+                        <option value="@rarity.Code">@rarity.Code</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-2">
+                <label for="type">Type:</label>
+                <InputSelect class="form-control" @bind-Value="type">
+                    @foreach (TypeReadDTO type in types)
+                    {
+                        <option value="@type.Name">@type.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-2">
+                <label for="artistId">Artist:</label>
+                <InputSelect class="form-control" @bind-Value="artistId">
+                    @foreach (ArtistReadDTO artist in artists)
+                    {
+                        <option value="@artist.Id">@artist.FullName</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-2">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" @bind-value="@name" />
+            </div>
+            <div class="col-md-1">
+                <label for="pageNumber">Page:</label>
+                <input type="number" class="form-control" @bind-value="@pageNumber" />
+            </div>
+            <div class="col-md-1">
+                <label for="pageSize">Size:</label>
+                <input type="number" class="form-control" @bind-value="@pageSize" />
+            </div>
+            <div class="col-md-2">
+                <label for="text">Text:</label>
+                <input type="text" class="form-control" @bind-value="@text" />
+            </div>
+            <div class="col-md-2">
+                <label for="Sort">Sort:</label>
+                <InputSelect class="form-control" @bind-Value="Sort">
+                    <option value="">- Select -</option>
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </InputSelect>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    }
+</EditForm>
+
+
+<p role="status">Found Cards:</p>
+@if (cards != null)
+{
+    <p role="status">Found Cards:</p>
+    <TableWidget text="@button" Items="@cards" AddItem="@((card) => AddCardToDatabase(card))" 
+                 ShowDetail="@((card) => NavigateToCardDetailsPage(card))">
+        <HeaderTemplate>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">RarityCode</th>
+            <th scope="col">artistId</th>
+            <th scope="col">SetCode</th>
+            <th scope="col">Type</th>
+            <th scope="col">Text</th>
+        </HeaderTemplate>
+        <RowTemplate Context="card">
+            <td>@card?.Id</td>
+            <td>@card?.Name</td>
+            <td>@card?.RarityCode</td>
+            <td>@card?.ArtistId</td>
+            <td>@card?.SetCode</td>
+            <td>@card?.Type</td>
+            <td>@card?.Text</td>
+        </RowTemplate>
+    </TableWidget>
+}
+
+
+
